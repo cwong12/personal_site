@@ -1,0 +1,137 @@
+/* Feel free to edit CSS of body if you'd like. We provide you the light gray background color and font family in the body styling */
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: 0;
+  background-color: #e6ecf0;
+}
+
+.header {
+  display: flex;
+  backface-visibility: hidden;
+  position: fixed;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 46px;
+  z-index: 100;
+  align-items: center;
+  width: auto;
+}
+
+.content-wrapper {
+  max-width: 1190px;
+  margin: 56px auto;
+}
+
+
+.content-center {
+  display: flex;
+  flex-wrap: wrap;;
+  position: absolute;
+  width: 600px;
+  top: 150px;
+  left: 350px;
+}
+
+
+.nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+
+
+}
+
+.navbutton {
+  text-align: center;
+  margin-left: 30px;
+  margin-right: 20px;
+  color: #28546C;
+
+
+}
+
+.navbutton:hover {
+
+  border-bottom: 1px solid #28546C;
+
+
+
+}
+
+.contactbutton {
+  background-color: #28546C;
+  color: white;
+  border-radius: 100px;
+  box-shadow: none;
+  padding: 6px 16px;
+  text-align: center;
+  width: 100px;
+  margin-left: auto;
+  margin-right: 20px;
+
+
+}
+
+.contactbutton:hover {
+
+  color: #28546C;
+  background-color: white;
+}
+
+input[type=text] {
+  width: 200%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: none;
+
+}
+
+.button {
+  background-color: #28546C; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.footer{
+    display: flex;
+    width: 100%;
+    background-color: gray;
+    text-align:  center;
+    position: absolute;
+    bottom: 0px;
+  }
+
+
+
+.words{
+  flex: 1;
+  font-size: 20px;
+  color: #28546C;
+  padding: 10px;
+}
+
+.footerwords{
+  flex: 1;
+  font-size: 10px;
+  color: white;
+  padding: 10px;
+}
+
+.numbers{
+  padding-left: 15px;
+  flex: 1;
+  color: #4AB3F4;
+
+}
