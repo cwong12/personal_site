@@ -22,7 +22,7 @@ export default class Projects extends React.Component {
 
   }
 
-  buildHeadings(){
+  buildHeadings(word){
 
     var weekNum = this.state.week;
 
@@ -34,7 +34,7 @@ export default class Projects extends React.Component {
     }
 
     var weekHtml = weeks.map((weekNums) =>
-        <th className = "weekScores">Week {weekNums} Scoring</th>
+        <th className = "weekScores">Week {weekNums} {word}</th>
   );
 
     return (
@@ -200,7 +200,7 @@ export default class Projects extends React.Component {
 
                 <tr>
                   <th>Team</th>
-                  {this.buildHeadings()}
+                  {this.buildHeadings("Points")}
                 </tr>
 
                 {this.buildScores()}
@@ -214,7 +214,7 @@ export default class Projects extends React.Component {
 
                   <tr>
                     <th>Team</th>
-                    {this.buildHeadings()}
+                    {this.buildHeadings("Scoring")}
                   </tr>
 
                   {this.buildPoints()}
