@@ -1,0 +1,437 @@
+body {
+  font-family: avenir,sans-serif;
+}
+
+header #header-content, .ting {
+    margin: 0 auto;
+    max-width: 768px;
+}
+
+header {
+  backface-visibility: visible;
+  position: fixed;
+  background-color: white;
+  opacity: .95;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+#top-links {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#bottom-links {
+  margin: 0px;
+  padding: 0px;
+}
+
+#top-links-list, li {
+  display: inline-block;
+  justify-content: space-between;
+}
+
+li {
+  font-family: avenir,sans-serif;
+  padding: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.admin-tips {
+  padding: 0px;
+  list-style-type: circle;
+}
+
+#admin-tip-list {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  list-style-type: circle;
+}
+
+#pin-tips{
+  display: flex;
+
+  flex-direction: column;
+  margin-left: 25px;
+  list-style-type: circle;
+}
+
+#mapwrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 50px;
+  margin-top: 25px;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 550px;
+}
+
+#info-div {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#info-div p {
+  margin-bottom: 8px;
+}
+
+#loaddiv {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  font-size: 30px;
+}
+
+#lat-long-div {
+  font-family: avenir, sans-sans-serif;
+}
+
+#navform {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  border-right: 1px solid black;
+  padding: 10px;
+  overflow: auto;
+  line-height: 1.5;
+}
+
+#admin-form {
+  width: 100%;
+}
+
+#submit-on-nav {
+  display: flex;
+  flex-direction: row;
+  display: inline;
+  z-index: 100;
+}
+
+#inline-span {
+  display: inline-flex;
+}
+
+Form.Label {
+  padding: 5px;
+}
+
+Form.Control {
+  margin: 10px;
+}
+
+#nav-results{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  border-radius: 5px 5px 5px 5px;
+  padding: 5px;
+  margin: 2px;
+}
+
+
+
+
+#header1 {
+  display: flex;
+  backface-visibility: hidden;
+  background-color: white;
+  position: fixed;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 46px;
+  z-index: 100;
+  align-items: center;
+  width: auto;
+}
+
+#header-links {
+  color: black;
+  font-size: 18px;
+}
+
+#header-title {
+  color: black;
+}
+
+#header-title:hover {
+  text-decoration: none;
+}
+
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: black;
+}
+
+h1 {
+    font-size: 2em;
+    padding: .67em 0;
+    margin: 0;
+}
+
+#sections, #top-links ul {
+    text-align: center;
+    display: inline;
+}
+
+
+element.style {
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+user agent stylesheet
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+user agent stylesheet
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+
+#mapdiv {
+  border-radius: inherit;
+  width: 80%;
+  height: 90%;
+  background-color: white;
+}
+
+#map-reset {
+  z-index: 100;
+}
+
+#map-info {
+  display: flex;
+  flex-direction: row;
+  justify-content:  center;
+  padding: 10px;
+  height: 700px;
+  width: 100%;
+  position: relative;
+  font-size: 72;
+  background:rgba(255, 255, 255,0.5);
+  font-weight: bold;
+  z-index: 10;
+  border-style: solid;
+  border-width: 1px;
+
+}
+
+#admin-map-click-alert {
+  padding: 5px;
+  position: relative;
+  flex-direction: row;
+  font-size: 72;
+  background:rgba(255, 255, 255,0.5);
+  font-weight: bold;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+Form {
+  font-family: avenir,sans-serif;
+}
+
+#admin-add-form {
+  width: 100%;
+}
+
+Button {
+  font-family: avenir,sans-serif;
+}
+
+#map-reset {
+  font-family: avenir,sans-serif;
+}
+
+
+
+.mapboxgl-popup-content {
+  display: flex;
+  justify-content: center;
+
+  font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+  padding: 0;
+  width: 400px;
+  height:300px;
+  background-color: red;
+}
+
+
+
+#popup-container{
+
+  font-size: 18px;
+}
+
+#image-container{
+  background-color: blue;
+}
+
+
+
+#popup-image{
+  width: 300px;
+  height: 200px;
+}
+
+#inline-date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#year-field {
+  display: flex;
+  flex: 3;
+}
+
+#month-field, #day-field {
+  display: flex;
+  flex: 1;
+}
+
+.popup-nav {
+  display: flex;
+  width: 100%;
+  list-style-type: none;
+  overflow: hidden;
+  background-color: lightgray;
+}
+
+.popup-nav-button {
+  width: 100%;
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 2px auto;
+  text-decoration: none;
+  border: 1px solid #e7e7e7;
+}
+
+/* Change the link color to #111 (black) on hover */
+.popup-nav-button:hover {
+  background-color: #f3f3f3;
+}
+
+
+.button-link {
+  color: white;
+}
+
+.button-link:hover {
+  text-decoration: none;
+}
+
+#menu-add-button {
+  margin-bottom: 5px;
+}
+
+#back-button {
+  align-self: left;
+}
+
+#nav-form-header {
+  font-weight: bold;
+  font-size: large;
+  padding-top: 5px;
+  align-self: center;
+}
+
+#top-content{
+  padding: 100px;
+}
+#middle-content{
+  padding: 100px;
+}
+
+.footer{
+    display: flex;
+    width: 100%;
+    background-color: gray;
+    text-align:  center;
+    position: fixed;
+    bottom: 0px;
+    z-index: 100;
+  }
+.words{
+  flex: 1;
+  font-size: 10px;
+  color: white;
+  padding: 10px;
+}
+
+.bannerContainer{
+
+  height: 1000px;
+  background-color: red;
+}
+
+.banner{
+    left: 150px;
+    width: 100%;
+    z-index: 0;
+    height: 400px;
+
+
+}
+
+#write-up{
+background-color: red;
+font-size: 18px;
+}
+
+.marker {
+  background-image: url('https://secure.webtoolhub.com/static/resources/icons/set101/1dc0e500.png');
+  background-size: cover;
+  margin-top: 25px;
+  width: 40px;
+  height: 43px;
+  cursor: pointer;
+}
+
+.weekScores{
+  padding-left: 10px;
+}
+
+.FF{
+  position: absolute;
+  top: 100px;
+}
+
+.score{
+  padding-left: 10px;
+}
