@@ -15,14 +15,16 @@ export default class Projects extends React.Component {
         "1/3 are playing": [98.1,	95.6,	94.4], //matt
         "Team Wong": [130.2,	141.2,127.9], //dad
         "Mom can win too, really": [75.9,	96.1,	80] //mom
+      },
+      week: 3
 
-      }
     }
 
   }
 
   buildHeadings(){
-    var weekNum = this.state.rawScores["Cleveland Browns"].length;
+
+    var weekNum = this.state.week;
 
     //build an array with week numbers i.e. [1,2,3]
     var weeks = []
@@ -127,7 +129,7 @@ export default class Projects extends React.Component {
 
       var teamScores = weekScores[week];
       //create an array of all the scores
-      for (team in teamScores){
+      for (var team in teamScores){
         var score = teamScores[team];
         scores.push(score);
 
@@ -139,30 +141,35 @@ export default class Projects extends React.Component {
 
       for (var i = 0 ; i < scores.length; i++){
         //get the team that produced that score
-        var team = Object.keys(teamScores).find(key => teamScores[key] === scores[i])
+        var key = Object.keys(teamScores).find(key => teamScores[key] === scores[i])
         var relativeScore = scores.length-i-1
-        if (ourScoringDict[team] === undefined){
-          ourScoringDict[team] = [relativeScore];
+        if (ourScoringDict[key] === undefined){
+          ourScoringDict[key] = [relativeScore];
         }
         else{
-          ourScoringDict[team].push(relativeScore)
+          ourScoringDict[key].push(relativeScore)
         }
 
-        var curScores = ourScoringDict[team];
-        var listItems = curScores.map((scores) =>
-              <td className = "score" id = "week1">{scores}</td>
-        );
-        console.log(listItems);
-        ourScoringDict[team] = listItems;
-
       }
-      console.log(ourScoringDict);
 
     }
 
-//     var listItems = curScores.map((scores) =>
-//       <td className = "score" id = "week1">{scores}</td>
-// );
+    //Finally go back through dict and transform data to react elements
+    for (var team in ourScoringDict){
+      var curScores = ourScoringDict[team];
+      var curTotal = curScores.reduce((a,b) => a + b, 0);
+      curScores.push(curTotal);
+
+      console.log(curScores);
+
+      //turn array into react table elements
+      var listItems = curScores.map((scores) =>
+            <td className = "score" >{scores}</td>
+      );
+      ourScoringDict[team] = listItems;
+
+
+    }
 
     return (
 
@@ -188,7 +195,7 @@ export default class Projects extends React.Component {
           <div className='standings'>
             <div className="biotext"> <b>Fantasy Football Standings</b>
 
-              <table>
+              <table className = "table">
                 <tbody>
 
                 <tr>
@@ -202,7 +209,7 @@ export default class Projects extends React.Component {
                   </tbody>
                 </table>
 
-                <table>
+                <table className = "table">
                   <tbody>
 
                   <tr>
