@@ -16,92 +16,11 @@ export default class Home extends React.Component {
         <div class="biotext">Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
         where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
         Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-        Born and raised in St. Louis, Missouri, I am currently an undergraduate student at Brown University,
-        where I studying Computer Science. I'm captain of the club baseball team here, involved in Brown's
-        Camp Kesem chapter, and a member of the Sigma Chi fraternity
-
+      
         </div>
       </div>
 
-    
+
       </div>
     );
   }

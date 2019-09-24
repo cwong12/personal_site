@@ -430,6 +430,7 @@ font-size: 18px;
 .FF{
   position: absolute;
   top: 100px;
+  padding:  10px; 
 }
 
 .score{

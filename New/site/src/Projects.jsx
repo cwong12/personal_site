@@ -14,13 +14,52 @@ export default class Projects extends React.Component {
         "Cleveland Browns" : [132.4,	105.2	,124.3],
         "1/3 are playing": [98.1,	95.6,	94.4], //matt
         "Team Wong": [130.2,	141.2,127.9], //dad
-        "Mom can win too, really": [75.9,	96.1,	80] //mom
+        "Mom can win too, really": [75.9,	96.1,	97.2] //mom
       },
       week: 3
 
     }
 
   }
+
+  testAddDB(){
+    fetch('http://localhost:8080/newEntry', {
+      headers: {
+              'Accept': 'application/json',
+              "Content-Type": "application/json"
+          },
+      method: 'POST',
+      body: JSON.stringify({
+        teamName: "Cleveland Browns",
+        week1Score: 123,
+        week2Score: 123,
+        week3Score: 123
+
+      })
+
+
+    })
+    .then(res => res.json())
+    .then(data => {
+  // process returned data
+    }).catch(err => {
+  // handle err
+    })
+  };
+
+  testDB(){
+    fetch('http://localhost:8080/standings', {
+      method: 'GET',
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("inside");
+      console.log(data);
+    });
+    console.log("shit");
+
+  };
+
 
   buildHeadings(word){
 
@@ -225,6 +264,10 @@ export default class Projects extends React.Component {
 
             </div>
           </div>
+          <Button id="map-reset" type="button" variant="light" onClick={this.testDB}>Test</Button>
+          <Button id="map-reset" type="button" variant="light" onClick={this.testAddDB}>Test Add</Button>
+          <Button id="map-reset" type="button" variant="light" onClick={this.clear}>Test Add</Button>
+
 
         </div>
 
