@@ -2,6 +2,10 @@ import React from 'react'
 import './App.css';
 import mapboxgl from 'mapbox-gl';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
@@ -16,36 +20,24 @@ export default class Projects extends React.Component {
         "Team Wong": [130.2,	141.2,127.9], //dad
         "Mom can win too, really": [75.9,	96.1,	97.2] //mom
       },
-      week: 3
+      week: 3,
+      showing: false,
+      password: "",
+      newScore: 0
 
     }
 
+    this.changeVis = this.changeVis.bind(this);
+    this.addEntry = this.addEntry.bind(this);
+
+
+    this.newTeam = React.createRef();
+    this.weekNum = React.createRef();
+    this.score = React.createRef();
+
   }
 
-  testAddDB(){
-    fetch('http://localhost:8080/newEntry', {
-      headers: {
-              'Accept': 'application/json',
-              "Content-Type": "application/json"
-          },
-      method: 'POST',
-      body: JSON.stringify({
-        teamName: "Cleveland Browns",
-        week1Score: 123,
-        week2Score: 123,
-        week3Score: 123
 
-      })
-
-
-    })
-    .then(res => res.json())
-    .then(data => {
-  // process returned data
-    }).catch(err => {
-  // handle err
-    })
-  };
 
   testDB(){
     fetch('http://localhost:8080/standings', {
@@ -53,12 +45,22 @@ export default class Projects extends React.Component {
     })
     .then(res => res.json())
     .then(data => {
-      console.log("inside");
       console.log(data);
     });
-    console.log("shit");
 
   };
+
+  clearDB(){
+    fetch('http://localhost:8080/clear', {
+      method: 'GET',
+    })
+    .then(res => res.json())
+    .then(data => {
+
+    });
+
+  };
+
 
 
   buildHeadings(word){
@@ -97,15 +99,17 @@ export default class Projects extends React.Component {
 
 
       //sum scores and round total
-      var curTotal = curScores.reduce((a,b) => a + b, 0);
+      var curTotal = parseFloat(curScores.reduce((a,b) => a + b, 0));
       var rounded = (curTotal).toFixed(1)
       totalDict[name] = rounded;
 
-      curScores.push(rounded);
+      if (!curScores.includes(rounded)){
+        curScores.push(rounded);
+
+      }
       var listItems = curScores.map((scores) =>
         <td className = "score" id = "week1">{scores}</td>
 );
-      console.log(listItems);
 
       htmlScores[name] = listItems;
     }
@@ -157,7 +161,6 @@ export default class Projects extends React.Component {
       }
 
     }
-    console.log(weekScores);
 
     var ourScoringDict = {};
 
@@ -199,7 +202,6 @@ export default class Projects extends React.Component {
       var curTotal = curScores.reduce((a,b) => a + b, 0);
       curScores.push(curTotal);
 
-      console.log(curScores);
 
       //turn array into react table elements
       var listItems = curScores.map((scores) =>
@@ -225,9 +227,52 @@ export default class Projects extends React.Component {
     )
   }
 
+  changeVis(e){
+    console.log(this.state.password);
+
+    console.log(this.state.showing);
+    const showing = this.state.showing;
+    if (this.state.password === "a"){
+      this.setState({showing: !showing});
+
+    }
+    e.preventDefault();
+  }
+
+  addEntry(e){
+    console.log("entry");
+    console.log(this.newTeam.current.value);
+    console.log(this.weekNum.current.value);
+    var holder = "week1Score";
+
+    var bodyJSON = {teamName: this.newTeam.current.value};
+    bodyJSON["week" + this.weekNum.current.value + "Score"] = this.state.newScore;
+
+    console.log(bodyJSON);
+    fetch('http://localhost:8080/newEntry', {
+      headers: {
+              'Accept': 'application/json',
+              "Content-Type": "application/json"
+          },
+      method: 'POST',
+      body: JSON.stringify({bodyJSON})
+
+
+    })
+    .then(res => res.json())
+    .then(data => {
+  // process returned data
+    }).catch(err => {
+  // handle err
+    })
+    e.preventDefault();
+
+  }
+
 
 
   render() {
+
     return (
       <div>
         <div className="FF">
@@ -236,15 +281,11 @@ export default class Projects extends React.Component {
 
               <table className = "table">
                 <tbody>
-
                 <tr>
                   <th>Team</th>
                   {this.buildHeadings("Points")}
                 </tr>
-
                 {this.buildScores()}
-
-
                   </tbody>
                 </table>
 
@@ -264,12 +305,70 @@ export default class Projects extends React.Component {
 
             </div>
           </div>
+          <div className = "admin">
+          <div>
+
           <Button id="map-reset" type="button" variant="light" onClick={this.testDB}>Test</Button>
           <Button id="map-reset" type="button" variant="light" onClick={this.testAddDB}>Test Add</Button>
-          <Button id="map-reset" type="button" variant="light" onClick={this.clear}>Test Add</Button>
+          <Button id="map-reset" type="button" variant="light" onClick={this.clearDB}>Clear</Button>
 
+          </div>
 
+            <Form id = "btn" onSubmit = {this.changeVis}>
+              <InputGroup id="admin-form">
+                <Form.Group id="admin-add-form" >
+                  <Form.Label>Enter password to add scores:</Form.Label>
+                  <Form.Control onChange={e => this.setState({password :e.target.value})} type="password" placeholder="Password" />
+                </Form.Group>
+              </InputGroup>
+              <Button  variant="success"  onClick={this.changeVis}>Enter</Button>
+            </Form>
+
+          <div>
+          { this.state.showing ?
+            <div>
+
+              <div className = "newEntry">
+              <Form id = "btn" onSubmit = {this.addEntry}>
+                <InputGroup id="admin-form">
+                  <Form.Group id="admin-add-form" >
+                    <Form.Label>Team</Form.Label>
+                    <Form.Control as="select" ref={this.newTeam}>
+                        <option>Cleveland Browns</option>
+                        <option>1/3 are playing</option>
+                        <option>Team Wong</option>
+                        <option>Mom can win too, really</option>
+                    </Form.Control>
+                    <Form.Label>Week Number</Form.Label>
+                    <Form.Control as="select" ref={this.weekNum}>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+
+                    </Form.Control>
+                    <Form.Label>Score</Form.Label>
+                    <Form.Control onChange={e => this.state.newScore = e.target.value} type="text" placeholder="Score" />
+                    </Form.Group>
+                  </InputGroup>
+                <Button  variant="success"  onClick={this.addEntry}>Add Entry</Button>
+              </Form>
+
+            </div>
+          </div>
+            : null }
+               </div>
+            </div>
         </div>
+
 
       </div>
 

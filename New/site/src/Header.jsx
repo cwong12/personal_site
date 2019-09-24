@@ -19,7 +19,7 @@ export default class Header extends Component {
 
 
               </ul>
-              <form accept-charset="UTF-8" action="/search" method="get"><div><input name="utf8" type="hidden" value="✓"/></div>
+              <form acceptCharset="UTF-8" action="/search" method="get"><div><input name="utf8" type="hidden" value="✓"/></div>
                   <input id="search" name="search" type="text"/>
               </form>
           </div>

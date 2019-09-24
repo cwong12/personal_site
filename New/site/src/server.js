@@ -71,7 +71,7 @@ app.get('/clear', function(request,response){
     if (err) return console.error(err);
   })
 
-}
+});
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -99,15 +99,18 @@ app.get('/standings', function(request,response){
 });
 
 app.post('/newEntry', function(request, response){
-    let newTeamName = request.body.teamName;
-    let newWeek1Score = request.body.week1Score;
-    let newWeek2Score = request.body.week2Score;
+  console.log(request.body.bodyJSON);
+    let newTeamName = request.body.bodyJSON.teamName;
+    let newWeek1Score = request.body.bodyJSON.week1Score;
+    let newWeek2Score = request.body.bodyJSON.week2Score;
 
-    let newWeek3Score = request.body.week3Score;
+    let newWeek3Score = request.body.bodyJSON.week3Score;
     console.log(newTeamName);
+    console.log(newWeek1Score);
+    console.log(newWeek2Score);
 
 
-
+    
     let Standing = new Standings({
       teamName: newTeamName,
 
