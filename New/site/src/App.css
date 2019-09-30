@@ -423,8 +423,13 @@ font-size: 18px;
   cursor: pointer;
 }
 
-.weekScores{
+.headers{
   padding-left: 10px;
+  cursor: pointer;
+
+}
+.headers:hover{
+  color: #38A1F3;
 }
 
 .FF{

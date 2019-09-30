@@ -23,7 +23,8 @@ export default class Projects extends React.Component {
       week: 3,
       showing: false,
       password: "",
-      newScore: 0
+      newScore: 0,
+      data:null
 
     }
 
@@ -36,6 +37,13 @@ export default class Projects extends React.Component {
     this.score = React.createRef();
 
   }
+
+  componentDidMount() {
+      const self = this;
+      this.buildPoints();
+      this.getSomeData();
+
+     }
 
 
 
@@ -61,11 +69,40 @@ export default class Projects extends React.Component {
 
   };
 
+  getSomeData(){
+    var holder = {};
+    var html = {};
+
+      fetch('http://localhost:8080/standings', {
+        method: 'GET',
+      })
+      .then(res => res.json())
+      .then(data => {
+
+        this.setState({data: data});
+
+
+      })
+
+
+  }
+
 
 
   buildHeadings(word){
 
     var weekNum = this.state.week;
+
+    //figure out which table it's building then pass the appropriate id
+    var mode = "";
+
+    if (word === "Points"){
+      mode = "rawTable";
+    }
+    else if (word === "Scoring"){
+      mode = "adjTable";
+
+    }
 
     //build an array with week numbers i.e. [1,2,3]
     var weeks = []
@@ -74,30 +111,45 @@ export default class Projects extends React.Component {
 
     }
 
-    var weekHtml = weeks.map((weekNums) =>
-        <th className = "weekScores">Week {weekNums} {word}</th>
+    var weekHtml = weeks.map((weekNums, index) =>
+        <th className = "headers" onClick={() => this.sortTable(index+1, mode)}>Week {weekNums} {word}</th>
   );
 
     return (
       <React.Fragment>
       {weekHtml}
-      <th className = "weekScores">Total</th>
+      <th className = "headers" onClick={() => this.sortTable(this.state.week+1, mode)}>Total</th>
       </React.Fragment>
     )
   }
 
-  buildScores(){
-    var holder = this.state.rawScores;
+
+  //build table with raw scores
+  buildPoints(){
+
+    var holder = {};
+
+
+    console.log(this.state.data);
+    holder = this.state.data;
+    console.log(holder);
 
     var htmlScores = {}
 
     var totalDict = {};
 
-    for (var name in holder){
-      var curScores = holder[name];
+    for (var id in holder){
 
+      var entry = holder[id];
+      var curScores = [];
+      var name = entry["teamName"];
+      console.log(entry);
+      for (var i = 1; i <= this.state.week;i++){
+        console.log(i);
 
-
+        curScores.push(entry["week" + i + "Score"]);
+      }
+      console.log(curScores);
       //sum scores and round total
       var curTotal = parseFloat(curScores.reduce((a,b) => a + b, 0));
       var rounded = (curTotal).toFixed(1)
@@ -132,7 +184,9 @@ export default class Projects extends React.Component {
 
   }
 
-  buildPoints(){
+  //build table according to our scoring
+
+  buildScoring(){
     var rawScores = this.state.rawScores;
 
     var weekScores = {}
@@ -195,7 +249,6 @@ export default class Projects extends React.Component {
       }
 
     }
-
     //Finally go back through dict and transform data to react elements
     for (var team in ourScoringDict){
       var curScores = ourScoringDict[team];
@@ -208,9 +261,9 @@ export default class Projects extends React.Component {
             <td className = "score" >{scores}</td>
       );
       ourScoringDict[team] = listItems;
-
-
     }
+
+    console.log(ourScoringDict);
 
     return (
 
@@ -228,9 +281,7 @@ export default class Projects extends React.Component {
   }
 
   changeVis(e){
-    console.log(this.state.password);
 
-    console.log(this.state.showing);
     const showing = this.state.showing;
     if (this.state.password === "a"){
       this.setState({showing: !showing});
@@ -243,10 +294,16 @@ export default class Projects extends React.Component {
     console.log("entry");
     console.log(this.newTeam.current.value);
     console.log(this.weekNum.current.value);
+    console.log(this.state.rawScores);
     var holder = "week1Score";
 
-    var bodyJSON = {teamName: this.newTeam.current.value};
-    bodyJSON["week" + this.weekNum.current.value + "Score"] = this.state.newScore;
+    var bodyJSON = {teamName: this.newTeam.current.value,
+                    weekNum: this.weekNum.current.value,
+                    score: this.state.newScore
+    };
+
+
+
 
     console.log(bodyJSON);
     fetch('http://localhost:8080/newEntry', {
@@ -269,35 +326,104 @@ export default class Projects extends React.Component {
 
   }
 
+  sortTable(col, table) {
+  var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
+  table = document.getElementById(table);
+  switching = true;
+  var dir = "desc";
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[col];
+      y = rows[i + 1].getElementsByTagName("TD")[col];
+
+      //check if the two rows should switch place:
+
+      x = x.innerHTML;
+      y = y.innerHTML;
+
+      if(col === 0){
+        x = x.toLowerCase();
+        y = y.toLowerCase();
+
+
+      }
+      else{
+        x = parseInt(x);
+        y = parseInt(y);
+      }
+      if (dir === "asc") {
+        if (x > y) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }else{
+        if (x < y) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchcount == 0 && dir == "desc") {
+          dir = "asc";
+          switching = true;
+        }
+      }
+    }
+  }
+
 
 
   render() {
 
+
     return (
       <div>
         <div className="FF">
+        { this.state.data ?
           <div className='standings'>
             <div className="biotext"> <b>Fantasy Football Standings</b>
-
-              <table className = "table">
+              <table className = "table" id = "rawTable">
                 <tbody>
                 <tr>
-                  <th>Team</th>
+                  <th onClick={() => this.sortTable(0, "rawTable") } className = "headers">Team</th>
                   {this.buildHeadings("Points")}
                 </tr>
-                {this.buildScores()}
+                {this.buildPoints()}
                   </tbody>
                 </table>
 
-                <table className = "table">
+                <table className = "table" id = "adjTable">
                   <tbody>
 
                   <tr>
-                    <th>Team</th>
+                    <th onClick={() => this.sortTable(0, "adjTable") } className = "headers">Team</th>
                     {this.buildHeadings("Scoring")}
                   </tr>
 
-                  {this.buildPoints()}
+                  {this.buildScoring()}
 
 
                     </tbody>
@@ -305,14 +431,9 @@ export default class Projects extends React.Component {
 
             </div>
           </div>
+        : null}
           <div className = "admin">
-          <div>
-
-          <Button id="map-reset" type="button" variant="light" onClick={this.testDB}>Test</Button>
-          <Button id="map-reset" type="button" variant="light" onClick={this.testAddDB}>Test Add</Button>
-          <Button id="map-reset" type="button" variant="light" onClick={this.clearDB}>Clear</Button>
-
-          </div>
+          
 
             <Form id = "btn" onSubmit = {this.changeVis}>
               <InputGroup id="admin-form">

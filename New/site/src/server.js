@@ -41,6 +41,18 @@ const standingsSchema = new mongoose.Schema({
     week1Score: Number,
     week2Score: Number,
     week3Score: Number,
+    week4Score: Number,
+    week5Score: Number,
+    week6Score: Number,
+    week7Score: Number,
+    week8Score: Number,
+    week9Score: Number,
+    week10Score: Number,
+    week11Score: Number,
+    week12Score: Number
+
+
+
 
 
   });
@@ -58,6 +70,8 @@ mongoose.connect(url, {useNewUrlParser: true});
 
 
 const Standings = mongoose.model('Standings', standingsSchema);
+
+const doc = new Standings();
 
 
 //use to clear db
@@ -80,48 +94,30 @@ app.use(function(req, res, next) {
 });
 
 
-app.get('/standings', function(request,response){
+app.get('/standings', async function(request,response){
     console.log("dbside");
     markers = []
+    var results;
 
-    Standings.find( {},function(err,result) {
-      for(let i = 0; i < result.length; i++){
-        markers.push(result[i]);
-        }
-    })
-
-
-
-    setTimeout(function(){
-      response.json(markers);
-
-       }, 1000);
+    const doc = await Standings.find()
+      .then(products => results = products)
+      .catch(e => console.error(e));
+    response.json(results);
 });
 
-app.post('/newEntry', function(request, response){
+app.post('/newEntry', async function(request, response){
   console.log(request.body.bodyJSON);
     let newTeamName = request.body.bodyJSON.teamName;
-    let newWeek1Score = request.body.bodyJSON.week1Score;
-    let newWeek2Score = request.body.bodyJSON.week2Score;
+    let newWeekNum = request.body.bodyJSON.weekNum;
+    let newWeekScore = request.body.bodyJSON.score;
 
-    let newWeek3Score = request.body.bodyJSON.week3Score;
     console.log(newTeamName);
-    console.log(newWeek1Score);
-    console.log(newWeek2Score);
+    console.log("exists");
+    const update = {};
+    update["week" + newWeekNum + "Score"] = newWeekScore;
+    const doc = await Standings.findOneAndUpdate({teamName: newTeamName}, update, {upsert: true});
 
 
-    
-    let Standing = new Standings({
-      teamName: newTeamName,
-
-      week1Score: newWeek1Score,
-      week2Score: newWeek2Score,
-      week3Score: newWeek3Score,
-
-    })
-    Standing.save(function (err) {
-      if (err) return console.error(err);
-    });
 
 });
 
