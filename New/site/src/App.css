@@ -14,6 +14,7 @@ header {
   opacity: .95;
   width: 100%;
   border-bottom: 1px solid black;
+  z-index: 30;
 }
 
 #top-links {
@@ -21,15 +22,11 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: 70px;
   margin: 0px;
   padding: 0px;
 }
 
-#bottom-links {
-  margin: 0px;
-  padding: 0px;
-}
 
 #top-links-list, li {
   display: inline-block;
@@ -284,27 +281,46 @@ Button {
 
   font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
   padding: 0;
-  width: 400px;
-  height:300px;
+  width: 800px;
+  height:500px;
   background-color: red;
+  margin-left: -280px;
+
 }
 
 
 
 #popup-container{
-
   font-size: 18px;
+  width: 100%;
+  background-color: lightgray;
+
 }
 
 #image-container{
-  background-color: blue;
+padding-left: 50px;
+padding-right: 50px;
+  width: 500px;
+  width: 50%;
 }
 
+#popup-location {
+  display: flex;
+  justify-content: center;
 
+}
+
+#popup-date {
+  display: flex;
+  justify-content: center;
+
+}
 
 #popup-image{
-  width: 300px;
-  height: 200px;
+
+
+  width: 700px;
+  height: 400px;
 }
 
 #inline-date {
@@ -383,7 +399,6 @@ Button {
     width: 100%;
     background-color: gray;
     text-align:  center;
-    position: fixed;
     bottom: 0px;
     z-index: 100;
   }
@@ -410,7 +425,6 @@ Button {
 }
 
 #write-up{
-background-color: red;
 font-size: 18px;
 }
 
@@ -435,7 +449,11 @@ font-size: 18px;
 .FF{
   position: absolute;
   top: 100px;
-  padding:  10px;
+  padding:  40px;
+}
+
+.standings{
+  width:90%;
 }
 
 .score{
@@ -448,4 +466,24 @@ font-size: 18px;
 
 .admin{
   padding-bottom: 100px;
+}
+
+.MoneyBallers{
+  padding:40px;
+}
+
+.writeup{
+  width: 90%;
+}
+
+.chart{
+  width:50%;
+}
+
+.bottom{
+  padding: 50px;
+}
+
+.projects{
+  padding-top: 100px;
 }

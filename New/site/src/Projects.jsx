@@ -4,6 +4,11 @@ import mapboxgl from 'mapbox-gl';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Heat_Map from "./images/Visualizations/Heatmap.png"
+import WL from "./images/Visualizations/Winlossbarchart.png"
+import Money from "./images/Visualizations/Money.png"
+import Lines from "./images/Visualizations/HomeAwayLine.png"
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,7 +25,7 @@ export default class Projects extends React.Component {
         "Team Wong": [130.2,	141.2,127.9], //dad
         "Mom can win too, really": [75.9,	96.1,	97.2] //mom
       },
-      week: 3,
+      week:4,
       showing: false,
       password: "",
       newScore: 0,
@@ -30,33 +35,26 @@ export default class Projects extends React.Component {
 
     this.changeVis = this.changeVis.bind(this);
     this.addEntry = this.addEntry.bind(this);
+    this.changeWeek = this.changeWeek.bind(this);
+
 
 
     this.newTeam = React.createRef();
     this.weekNum = React.createRef();
     this.score = React.createRef();
+    this.showWeek = React.createRef();
+
 
   }
 
   componentDidMount() {
-      const self = this;
-      this.buildPoints();
+      //this.buildPoints();
       this.getSomeData();
+      //this.sortTable(this.state.week, "rawTable");
 
      }
 
 
-
-  testDB(){
-    fetch('http://localhost:8080/standings', {
-      method: 'GET',
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-    });
-
-  };
 
   clearDB(){
     fetch('http://localhost:8080/clear', {
@@ -70,8 +68,6 @@ export default class Projects extends React.Component {
   };
 
   getSomeData(){
-    var holder = {};
-    var html = {};
 
       fetch('http://localhost:8080/standings', {
         method: 'GET',
@@ -84,6 +80,16 @@ export default class Projects extends React.Component {
 
       })
 
+
+  }
+
+  parseData(entry){
+    let curScores = [];
+    for (var i = 1; i <= this.state.week;i++){
+
+      curScores.push(entry["week" + i + "Score"]);
+    }
+    return curScores;
 
   }
 
@@ -101,7 +107,6 @@ export default class Projects extends React.Component {
     }
     else if (word === "Scoring"){
       mode = "adjTable";
-
     }
 
     //build an array with week numbers i.e. [1,2,3]
@@ -127,33 +132,23 @@ export default class Projects extends React.Component {
   //build table with raw scores
   buildPoints(){
 
-    var holder = {};
+    var holder = this.state.data;
 
+    var htmlScores = {};
+    var rawDict = {};
 
-    console.log(this.state.data);
-    holder = this.state.data;
-    console.log(holder);
-
-    var htmlScores = {}
-
-    var totalDict = {};
 
     for (var id in holder){
 
       var entry = holder[id];
-      var curScores = [];
       var name = entry["teamName"];
-      console.log(entry);
-      for (var i = 1; i <= this.state.week;i++){
-        console.log(i);
+      let curScores = this.parseData(entry);
 
-        curScores.push(entry["week" + i + "Score"]);
-      }
-      console.log(curScores);
+      rawDict[name] = curScores;
+
       //sum scores and round total
       var curTotal = parseFloat(curScores.reduce((a,b) => a + b, 0));
       var rounded = (curTotal).toFixed(1)
-      totalDict[name] = rounded;
 
       if (!curScores.includes(rounded)){
         curScores.push(rounded);
@@ -165,7 +160,6 @@ export default class Projects extends React.Component {
 
       htmlScores[name] = listItems;
     }
-
 
 
     return (
@@ -187,34 +181,40 @@ export default class Projects extends React.Component {
   //build table according to our scoring
 
   buildScoring(){
-    var rawScores = this.state.rawScores;
+    var rawScores = {};
+    var holder = this.state.data;
+
+    for (var id in holder){
+
+      var entry = holder[id];
+      var name = entry["teamName"];
+      let curScores = this.parseData(entry);
+
+      rawScores[name] = curScores;
+    }
 
     var weekScores = {}
 
-    var totalDict = {};
-    totalDict[1] = 4;
-    totalDict[2] = 4;
-
     //divide up scores into each week
-    for (var name in rawScores){
-      var teamName = name;
-      for (var i = 0; i < rawScores[name].length-1; i++){
+    for (var teamName in rawScores){
+      for (var i = 0; i < rawScores[teamName].length; i++){
         //dict for team to score that week
 
         if (weekScores[i+1] === undefined){
           var obj = {};
-          obj[teamName] = rawScores[name][i];
+          obj[teamName] = rawScores[teamName][i];
           weekScores[i+1] = obj;
 
         }
         else{
-          weekScores[i+1][teamName] = rawScores[name][i];
+          weekScores[i+1][teamName] = rawScores[teamName][i];
         }
 
 
       }
 
     }
+    console.log(weekScores);
 
     var ourScoringDict = {};
 
@@ -225,8 +225,8 @@ export default class Projects extends React.Component {
 
       var teamScores = weekScores[week];
       //create an array of all the scores
-      for (var team in teamScores){
-        var score = teamScores[team];
+      for (var curTeam in teamScores){
+        var score = teamScores[curTeam];
         scores.push(score);
 
 
@@ -235,10 +235,10 @@ export default class Projects extends React.Component {
       //sort and assigned 3,2,1,0 points based on highest raw score
       scores.sort(function(a, b){return b-a});
 
-      for (var i = 0 ; i < scores.length; i++){
+      for (var j = 0 ; j < scores.length; j++){
         //get the team that produced that score
-        var key = Object.keys(teamScores).find(key => teamScores[key] === scores[i])
-        var relativeScore = scores.length-i-1
+        var key = Object.keys(teamScores).find(key => teamScores[key] === scores[j])
+        var relativeScore = scores.length-j-1
         if (ourScoringDict[key] === undefined){
           ourScoringDict[key] = [relativeScore];
         }
@@ -263,7 +263,6 @@ export default class Projects extends React.Component {
       ourScoringDict[team] = listItems;
     }
 
-    console.log(ourScoringDict);
 
     return (
 
@@ -280,6 +279,12 @@ export default class Projects extends React.Component {
     )
   }
 
+  changeWeek(){
+    console.log(this.showWeek.current.value);
+    this.setState({week: this.showWeek.current.value})
+
+  }
+
   changeVis(e){
 
     const showing = this.state.showing;
@@ -291,11 +296,6 @@ export default class Projects extends React.Component {
   }
 
   addEntry(e){
-    console.log("entry");
-    console.log(this.newTeam.current.value);
-    console.log(this.weekNum.current.value);
-    console.log(this.state.rawScores);
-    var holder = "week1Score";
 
     var bodyJSON = {teamName: this.newTeam.current.value,
                     weekNum: this.weekNum.current.value,
@@ -303,9 +303,6 @@ export default class Projects extends React.Component {
     };
 
 
-
-
-    console.log(bodyJSON);
     fetch('http://localhost:8080/newEntry', {
       headers: {
               'Accept': 'application/json',
@@ -327,8 +324,8 @@ export default class Projects extends React.Component {
   }
 
   sortTable(col, table) {
-  var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-  table = document.getElementById(table);
+  var tableRef, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
+  tableRef = document.getElementById(table);
   switching = true;
   var dir = "desc";
   /*Make a loop that will continue until
@@ -336,7 +333,7 @@ export default class Projects extends React.Component {
   while (switching) {
     //start by saying: no switching is done:
     switching = false;
-    rows = table.rows;
+    rows = tableRef.rows;
     /*Loop through all table rows (except the
     first, which contains table headers):*/
     for (i = 1; i < (rows.length - 1); i++) {
@@ -386,7 +383,7 @@ export default class Projects extends React.Component {
       } else {
         /* If no switching has been done AND the direction is "asc",
         set the direction to "desc" and run the while loop again. */
-        if (switchcount == 0 && dir == "desc") {
+        if (switchcount === 0 && dir === "desc") {
           dir = "asc";
           switching = true;
         }
@@ -400,98 +397,123 @@ export default class Projects extends React.Component {
 
 
     return (
-      <div>
-        <div className="FF">
-        { this.state.data ?
-          <div className='standings'>
-            <div className="biotext"> <b>Fantasy Football Standings</b>
-              <table className = "table" id = "rawTable">
-                <tbody>
-                <tr>
-                  <th onClick={() => this.sortTable(0, "rawTable") } className = "headers">Team</th>
-                  {this.buildHeadings("Points")}
-                </tr>
-                {this.buildPoints()}
-                  </tbody>
-                </table>
+      <div className ="projects">
 
-                <table className = "table" id = "adjTable">
-                  <tbody>
+            <div className = "MoneyBallers">
+              <div className= "writeup">
+            <h3>MoneyBallers</h3>
+            <p>Collaborators: Will Glaser, Lynn Hlaing, Jake Acquardo</p>
+            <p>All of our code is available on our Github: <a href="https://github.com/jakeacquadro/MLB-Data/">Here</a></p>
 
-                  <tr>
-                    <th onClick={() => this.sortTable(0, "adjTable") } className = "headers">Team</th>
-                    {this.buildHeadings("Scoring")}
-                  </tr>
+            <h4>Vision:</h4>
+            <p>Our vision was to build a predictive model based off of historical MLB data to
+            predict the outcomes of future games. In addition to accuracy, the intention was
+            for this model to be profitable when used for betting on games based on these predictions.
+            Initially, we intended to build a model that could predict games; we narrowed
+            down the scope of the project so that we had the goal of making a model that could
+            predict the winner of a game more than 50% of the time and could also be profitable.</p>
 
-                  {this.buildScoring()}
+            <p>In the end, we achieved both of our goals: both of our machine learning models could
+            predict the winner more for than 50% of games, and both models were profitable if we
+            used the right betting strategy. We didn’t deviate too far from our initial goal,
+            except for realizing that betting on the winner most of the time would not be profitable.
+            We instead calculated the odds for winning and compared them to the odds provided by the betting agency.</p>
 
-
-                    </tbody>
-                  </table>
-
-            </div>
-          </div>
-        : null}
-          <div className = "admin">
-          
-
-            <Form id = "btn" onSubmit = {this.changeVis}>
-              <InputGroup id="admin-form">
-                <Form.Group id="admin-add-form" >
-                  <Form.Label>Enter password to add scores:</Form.Label>
-                  <Form.Control onChange={e => this.setState({password :e.target.value})} type="password" placeholder="Password" />
-                </Form.Group>
-              </InputGroup>
-              <Button  variant="success"  onClick={this.changeVis}>Enter</Button>
-            </Form>
-
-          <div>
-          { this.state.showing ?
-            <div>
-
-              <div className = "newEntry">
-              <Form id = "btn" onSubmit = {this.addEntry}>
-                <InputGroup id="admin-form">
-                  <Form.Group id="admin-add-form" >
-                    <Form.Label>Team</Form.Label>
-                    <Form.Control as="select" ref={this.newTeam}>
-                        <option>Cleveland Browns</option>
-                        <option>1/3 are playing</option>
-                        <option>Team Wong</option>
-                        <option>Mom can win too, really</option>
-                    </Form.Control>
-                    <Form.Label>Week Number</Form.Label>
-                    <Form.Control as="select" ref={this.weekNum}>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-
-                    </Form.Control>
-                    <Form.Label>Score</Form.Label>
-                    <Form.Control onChange={e => this.state.newScore = e.target.value} type="text" placeholder="Score" />
-                    </Form.Group>
-                  </InputGroup>
-                <Button  variant="success"  onClick={this.addEntry}>Add Entry</Button>
-              </Form>
-
-            </div>
-          </div>
-            : null }
-               </div>
-            </div>
-        </div>
+            <h4>Data:</h4>
 
 
-      </div>
+            <p>Originally, we began with a data set of nearly 44,000 MLB games starting from 2000 until 2018,
+               which we took from Retrosheet.com. This dataset originally contained 161 attributes, including
+                game information, score lines, player data, umpire data, and game statistics. Since our plan was
+                to develop a model capable of predicting the winner of the game, however, a number of the
+                statistics were irrelevant as we would not have these particular statistics prior to the game
+                that we would want to predict for. Thus, we removed nearly 80 attributes including, pitching,
+                offensive and defensive statistics of the two teams during the game. We also removed games
+                that were rained out, zero attendance, and had incomplete data. All of this cleaning and
+                collection were done using SQL queries on a database created after we used python to import
+                the data from txt files.</p>
+            	<p>We collected the game data using a csv reader from python, pulling csv files from Retrosheet.com
+                and reading them into a database. Collecting betting data was more difficult. We had to scrape
+                it from sportsbookreview.com using BeautifulSoup. Since the data was storedon tables on each
+                page and these tables were javascript objects, we had to use ChromeDriver to open a window of
+                Google Chrome and automate the scraping. We initially scraped all of the data from a different
+                website, oddsportal.com, then changed to a different website, sportsbookreview.com because the
+                keys aligned better. Unfortunately, the scraper for the second website got deleted during
+                pushing and pulling from Github, but we still have the scraped data and the original scraper
+                which works.</p>
+            	<p>In the end, we ended up with about 26,000 games that encompassed games from 2007 to 2018 as the
+              betting data only contained data from after 2007. At this point we were left with about 85 attributes
+               across all 26,000 data points. We decided that player data and umpire data would not be feasible to
+                use as it would require a seperate dictionary tracking their various statistics and would greatly
+                increase the total number of attributes to look at. From there, we used a combination of feature
+                analysis and visualizations of the data to decide which final attributes we would use. This
+                resulted in us using 8 main attributes:</p>
+
+
+              <p>
+                In the end, we had 26,000 games with 8 attributes to use for our models. As a side note,
+                 our data set does not include Arizona because they are an irrelevant franchise that would
+                 never really win any games and because their unique ID failed to merge on several occasions
+                 despite our going back and checking on franchise ID and unique ID itself. However, this is
+                 not a very large portion of games as there are 29 other teams we used.
+
+            </p>
+
+            <h4>Methodology:</h4>
+              <p>
+                Once we had merged our data, we decided to use a Logistic Regression from StatsModel and
+                Random Forest classifiers from Sklearn. For both models, we trained on games from the 2007
+                to 2017 MLB seasons, which amounted to approximately 24000 games, and tested on the 2018 season,
+                 which was about 2400 games. Along the way we used some visualizations to aid in the choosing
+                 of which attributes we would include in our models:
+              </p>
+
+              <img class = "chart" alt = "Win/loss chart" src={WL}/>
+              <img class = "chart" alt = "Win/loss chart" src={Heat_Map}/>
+
+
+
+              <p>
+                These visualizations show us that being the home team almost universally
+                wins more than 50% of the time
+              </p>
+
+              <h4>Machine Learning:</h4>
+                <p>
+              After preparing our data set, we decided that we would train on the example games
+              from the years from 2007-2017 (~24,000 games) and validate our model on the games
+              from 2018 (~2400 games). We initially started with a logistic regression using
+              the statsmodel package as it was one of the more simple models relevant to our dataset and our purpose
+
+
+              </p>
+
+              <h4>Results:</h4>
+
+              <p>
+                We found that both machine learning models correctly predicted the winner more than
+                50% of the time. The Logistic Regression and the Random Forest were both correct for
+                around 54% of games. However, the Random Forest made 4.9% profit while the Logistic
+                Regression only made 0.9% profit. Our betting strategy was to only bet when our
+                calculated odds were better than the ones provided by the betting agency. </p>
+
+                <p>
+                Our most significant finding was that betting on the predicted winner was not a good
+                betting strategy. We lost 8% with the Random Forest and 10% with the Logistic Regression
+                when betting on the predicted winner only. This is because while you may get most games
+                 right, you are not making a large profit on most if the betting lines are very negative.
+                 You will be losing large amounts on the ones you do get wrong, netting a loss.
+
+              </p>
+              <img class = "chart" alt = "Win/loss chart" src={Money}/>
+
+
+                  </div>
+                  </div>
+
+                  </div>
+
+
 
     );
   }

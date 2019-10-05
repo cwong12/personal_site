@@ -14,7 +14,7 @@ export default class Header extends Component {
 
               <ul id="top-links-list">
                   <li><Link to="/" id="header-links">Home</Link></li>
-                  <li><Link to="/baseball" id="header-links">Baseball</Link></li>
+                  <li><Link to="/baseball" id="header-links">Fun Stuff</Link></li>
                   <li><Link to="/projects" id="header-links">Projects</Link></li>
 
 
